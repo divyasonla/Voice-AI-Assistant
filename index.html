@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>English Tutor</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family: Arial, sans-serif;
+}
+
+body{
+background:#050b16;
+height:100vh;
+color:white;
+}
+
+/* HEADER */
+.header{
+display:flex;
+align-items:center;
+padding:15px 30px;
+border-bottom:1px solid #1f2a44;
+}
+
+.logo{
+width:40px;
+height:40px;
+background:#2f80ff;
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+margin-right:10px;
+}
+
+.header-text h3{
+font-size:16px;
+}
+
+.header-text p{
+font-size:12px;
+color:#aaa;
+}
+
+/* CENTER CONTENT */
+.center{
+height:70vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+.chat-icon{
+width:70px;
+height:70px;
+border-radius:50%;
+background:#1a2336;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+margin-bottom:20px;
+}
+
+.center h2{
+margin-bottom:10px;
+}
+
+.center p{
+color:#9aa4b2;
+font-size:14px;
+max-width:400px;
+}
+
+/* MIC SECTION */
+.bottom{
+position:absolute;
+bottom:40px;
+width:100%;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.mic{
+width:70px;
+height:70px;
+border-radius:50%;
+background:#2f80ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+cursor:pointer;
+}
+
+.bottom span{
+margin-top:10px;
+color:#aaa;
+font-size:13px;
+}
+
+/* divider */
+.line{
+position:absolute;
+bottom:120px;
+width:100%;
+border-top:1px solid #1f2a44;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+<div class="logo">🎓</div>
+<div class="header-text">
+<h3>English Tutor</h3>
+<p>Your 24/7 Speaking Partner</p>
+</div>
+</div>
+
+<!-- CENTER -->
+<div class="center">
+<div class="chat-icon">💬</div>
+
+<h2>Ready to Practice English!</h2>
+
+<p>
+Tap the microphone button below and start speaking in English.
+I'll help you improve your grammar, pronunciation,
+and confidence!
+</p>
+</div>
+
+<div class="line"></div>
+
+<!-- MIC -->
+<div class="bottom">
+<div class="mic">🎤</div>
+<span>Tap to speak</span>
+</div>
+
+</body>
+</html>

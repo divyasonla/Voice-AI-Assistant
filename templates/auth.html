@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Omli Kid Login</title>
+
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #84fab0, #8fd3f4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 300px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #0056b3;
+}
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome</h1>
+        <p>Please choose an option to continue:</p>
+        <button onclick="location.href='/signup'">Sign Up</button>
+        <button onclick="location.href='/login'">Login</button>
+    </div>
+</body>
+</html>

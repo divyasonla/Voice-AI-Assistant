@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>English Tutor</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#050b16;
+color:white;
+font-family:Arial,sans-serif;
+height:100vh;
+overflow:hidden;
+}
+
+/* HEADER */
+.header{
+display:flex;
+align-items:center;
+gap:10px;
+padding:12px 16px;
+border-bottom:1px solid #1f2a44;
+position:fixed;
+top:0;
+width:100%;
+background:#050b16;
+z-index:1000;
+}
+
+/* LOGO */
+.logo{
+width:40px;
+height:40px;
+background:#2f80ff;
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-shrink:0;
+}
+
+/* CENTER INTRO */
+.center{
+margin-top:70px;
+height:30vh;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:15px;
+}
+
+/* CHAT */
+.chat{
+position:absolute;
+top:150px;
+bottom:120px;
+width:100%;
+padding:15px;
+display:flex;
+flex-direction:column;
+overflow-y:auto;
+}
+
+/* bubbles */
+.chat-bubble{
+max-width:75%;
+padding:10px 14px;
+border-radius:14px;
+margin:6px 0;
+font-size:14px;
+line-height:1.4;
+}
+
+.user-bubble{
+background:#2f80ff;
+align-self:flex-end;
+}
+
+.bot-bubble{
+background:#ecf0f1;
+color:black;
+align-self:flex-start;
+}
+
+/* LISTEN */
+.listening{
+text-align:center;
+color:red;
+position:fixed;
+bottom:110px;
+width:100%;
+}
+
+/* MIC AREA */
+.bottom{
+position:fixed;
+bottom:20px;
+width:100%;
+display:flex;
+justify-content:center;
+}
+
+.mic{
+width:64px;
+height:64px;
+border-radius:50%;
+background:#2f80ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+cursor:pointer;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:480px){
+
+.chat-bubble{
+font-size:13px;
+max-width:85%;
+}
+
+.center{
+height:25vh;
+}
+
+.logo{
+width:34px;
+height:34px;
+}
+
+.mic{
+width:56px;
+height:56px;
+font-size:22px;
+}
+
+}
+
+/* ---------- TABLET ---------- */
+
+@media(min-width:481px) and (max-width:900px){
+
+.chat-bubble{
+font-size:14px;
+}
+
+.center{
+height:28vh;
+}
+
+}
+
+/* ---------- DESKTOP ---------- */
+
+@media(min-width:901px){
+
+.chat{
+padding:20px 25%;
+}
+
+.chat-bubble{
+font-size:15px;
+}
+
+}
+
+/* CHAT CONTAINER */
+
+
+/* MIC BUTTON */
+.mic {
+    width: 90px; /* Increased size for better visibility */
+    height: 90px;
+    border-radius: 50%;
+    background: #2f80ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px; /* Increased font size */
+    cursor: pointer;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 768px) {
+    .chat {
+        height: 65vh;
+         /* Adjusted height for medium screens */
+    }
+
+    .mic {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chat {
+        height: 60vh; /* Adjusted height for small screens */
+    }
+
+    .mic {
+        width: 100px;
+        height: 100px;
+        font-size: 28px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="logo">🎓</div>
+           <div>
+                <h3>English Tutor</h3>
+                <p style="font-size:12px;color:#aaa">24/7 Speaking Partner</p>
+           </div>
+        </div>
+        
+        <div class="center">
+            <div class="chat-icon">💬</div>
+            <h2>Ready to Practice English</h2>
+            <p style="color:#aaa">Tap mic and speak</p>
+        </div>
+    
+    <div id="chat" class="chat"></div>
+    
+    <p id="listening" class="listening">Listening...</p>
+    
+    <div class="bottom">
+    <div class="mic" onclick="listen()">🎤</div>
+    </div>
+    
+    <script>
+    
+    const chat=document.getElementById("chat");
+    const listening=document.getElementById("listening");
+    const center=document.querySelector(".center");
+    
+    function bubble(text,type){
+    
+    let div=document.createElement("div");
+    div.className="chat-bubble "+(type=="user"?"user-bubble":"bot-bubble");
+    div.innerText=text;
+    
+    chat.appendChild(div);
+    chat.scrollTop=chat.scrollHeight;
+    }
+    
+    function listen(){
+
+        if (!('webkitSpeechRecognition' in window)) {
+            bubble("Speech recognition not supported in this browser.", "bot");
+            return;
+        }
+
+        center.style.display="none";
+
+        let rec=new webkitSpeechRecognition();
+        rec.lang="en-US";
+        rec.start();
+
+        listening.style.display="block";
+
+        rec.onresult=async(e)=>{
+
+            listening.style.display="none";
+
+            let text=e.results[0][0].transcript;
+
+            bubble(text,"user");
+
+            let res=await fetch("/chat",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({message:text})
+            });
+
+            let data=await res.json();
+
+            bubble(data.response,"bot");
+
+            speechSynthesis.speak(new SpeechSynthesisUtterance(data.response));
+        };
+
+        rec.onerror=(e)=>{
+            listening.style.display="none";
+            let errorMessage = "Mic error";
+
+            if (e.error === "not-allowed") {
+                errorMessage = "Microphone access denied. Please enable it in your browser settings.";
+            } else if (e.error === "network") {
+                errorMessage = "Network error. Please check your internet connection.";
+            } else if (e.error === "no-speech") {
+                errorMessage = "No speech detected. Please try again.";
+            }
+
+            bubble(errorMessage, "bot");
+        };
+    }
+    
+    rec.onerror=()=>{
+    listening.style.display="none";
+    bubble("Mic error","bot");
+    }
+    
+    function updateChatScroll() {
+        const chat = document.getElementById("chat");
+
+        if (chat.scrollHeight > chat.clientHeight) {
+            chat.style.overflowY = "auto"; // Enable scrolling if content overflows
+        } else {
+            chat.style.overflowY = "hidden"; // Disable scrolling if content fits
+        }
+    }
+
+    // Observe changes in the chat container
+    const observer = new MutationObserver(updateChatScroll);
+    observer.observe(document.getElementById("chat"), { childList: true });
+    
+    // }
+    
+    </script>
+
+</body>
+</html>
