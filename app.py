@@ -2,13 +2,18 @@ import os
 from flask import Flask, render_template, request, jsonify, redirect, session
 from openai import OpenAI
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "secret123"
 
+# Replace hardcoded API key with environment variable
 client = OpenAI(
     base_url="https://integrate.api.nvidia.com/v1",
-    api_key="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"
+    api_key=os.getenv("API_KEY")
 )
 
 # fake DB
