@@ -1,8 +1,7 @@
-fastapi==0.128.0
+flask==2.3.2
 uvicorn==0.40.0
 python-dotenv==1.2.1
 requests==2.31.0
-pydantic==2.12.5
+pydantic>=2.0
 rich==13.7.1
-flask==2.3.2
-openai==0.27.8
+openai>=1.3.0
